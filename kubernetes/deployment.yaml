@@ -19,7 +19,14 @@ spec:
       containers:
       - name: task-manager
 
-        image: harishhh07/task-manager:6
+        image: harishhh07/task-manager:7
 
         ports:
         - containerPort: 5000
+
+        env:
+         - name: APP_NAME
+           valueFrom:
+             configMapKeyRef:
+               name: task-manager-config
+               key: APP_NAME

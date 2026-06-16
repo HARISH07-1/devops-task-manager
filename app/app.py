@@ -1,5 +1,10 @@
+import os
+
 from prometheus_client import Counter, generate_latest
 from flask import Response
+
+
+APP_NAME = os.getenv("APP_NAME", "Default App")
 
 tasks_created = Counter(
     "tasks_created_total",
@@ -25,8 +30,7 @@ DB_PATH = "tasks.db"
 
 @app.route("/")
 def home():
-    app_requests.inc()
-    return render_template("index.html")
+    return f"{APP_NAME} Running Successfully"
 
 
 @app.route("/create", methods=["GET", "POST"])
