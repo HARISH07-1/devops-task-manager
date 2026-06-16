@@ -18,21 +18,21 @@ pipeline {
         stage('Verify Docker') {
             steps {
                 echo 'Checking Docker installation...'
-                bash 'docker --version'
+                bat 'docker --version'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                bash "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
+                bat "docker build -t ${IMAGE_NAME}:${IMAGE_TAG} ."
             }
         }
 
         stage('List Docker Images') {
             steps {
                 echo 'Listing Docker images...'
-                bash 'docker images'
+                bat 'docker images'
             }
         }
     }
