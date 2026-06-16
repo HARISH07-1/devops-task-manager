@@ -94,6 +94,29 @@ def update_task(id):
 
     return render_template("update.html")
 
+def init_db():
+
+    conn = sqlite3.connect(DB_PATH)
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS tasks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        status TEXT DEFAULT 'Pending'
+    )
+    """)
+
+    conn.commit()
+    conn.close()
+
+
+
+
 
 if __name__ == "__main__":
+
+    init_db()
     app.run(host="0.0.0.0", port=5000, debug=True)
