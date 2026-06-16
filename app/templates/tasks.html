@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Tasks</title>
+</head>
+<body>
+
+<h1>All Tasks</h1>
+
+<table border="1">
+
+<tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Status</th>
+</tr>
+
+{% for task in tasks %}
+
+<tr>
+    <td>{{ task[0] }}</td>
+    <td>{{ task[1] }}</td>
+    <td>{{ task[2] }}</td>
+    <td>{{ task[3] }}</td>
+    <td>
+    <a href="/update/{{ task[0] }}">
+        Update
+    </a>
+</td>
+
+<td>
+    <a href="/delete/{{ task[0] }}">
+        Delete
+    </a>
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/">Home</a>
+
+</body>
+</html	>
