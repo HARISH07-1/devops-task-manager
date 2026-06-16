@@ -1,3 +1,16 @@
+from prometheus_client import Counter, generate_latest
+from flask import Response
+
+tasks_created = Counter(
+    "tasks_created_total",
+    "Total number of tasks created"
+)
+
+app_requests = Counter(
+    "app_requests_total",
+    "Total application requests"
+)
+
 from flask import Flask, render_template, request, redirect
 import sqlite3
 
@@ -12,11 +25,13 @@ DB_PATH = "tasks.db"
 
 @app.route("/")
 def home():
+    app_requests.inc()
     return render_template("index.html")
 
 
 @app.route("/create", methods=["GET", "POST"])
 def create_task():
+    tasks_created.inc()
 
     if request.method == "POST":
 
@@ -40,6 +55,7 @@ def create_task():
 
 @app.route("/tasks")
 def tasks():
+    app_requests.inc()
 
     conn = sqlite3.connect(DB_PATH)
 
@@ -59,6 +75,7 @@ def tasks():
 
 @app.route("/delete/<int:id>")
 def delete_task(id):
+    app_requests.inc()
 
     conn = sqlite3.connect(DB_PATH)
 
@@ -75,6 +92,7 @@ def delete_task(id):
 
 @app.route("/update/<int:id>", methods=["GET", "POST"])
 def update_task(id):
+    app_requests.inc()
 
     if request.method == "POST":
 
@@ -114,7 +132,13 @@ def init_db():
 
 
 
+@app.route("/metrics")
+def metrics():
 
+    return Response(
+        generate_latest(),
+        mimetype="text/plain"
+    )
 
 if __name__ == "__main__":
 
